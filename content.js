@@ -375,6 +375,13 @@ const QUESTS = {
         title: "What's an index?",
         body: `<p>The Nifty 50 isn't a stock. It's a <em>list</em> of the 50 biggest, most actively traded Indian companies — and a <em>price</em> calculated from their average movement.</p>
         <p>When news says "Nifty up 1%," it means those 50 companies, on average, gained 1% today.</p>
+        <p>Other indexes you'll hear in real life:</p>
+        <ul>
+          <li><strong>Sensex:</strong> 30 large companies on BSE</li>
+          <li><strong>Nifty Bank (Bank Nifty):</strong> major banking stocks; usually moves faster than Nifty 50</li>
+          <li><strong>Nifty Next 50:</strong> the next layer after Nifty 50, often more volatile</li>
+        </ul>
+        <p>For beginners, track Nifty 50 first. Add Bank Nifty only after your risk rules are solid.</p>
         <p>Indexes give you the market's mood at a glance. They also let you invest in the entire top 50 in one click — through index funds. (The boring, profitable kind of investing.)</p>
         <div class="key-insight"><strong>Tip:</strong> If you do nothing else from this app, set up a monthly SIP into a Nifty 50 index fund. Over 20 years, this beats most traders.</div>`
       },
@@ -396,6 +403,7 @@ const QUESTS = {
       { term: "BSE", def: "Bombay Stock Exchange — India's oldest exchange, since 1875." },
       { term: "Nifty 50", def: "Index of India's top 50 companies by size, traded on NSE." },
       { term: "Sensex", def: "Index of 30 large companies, traded on BSE." },
+      { term: "Bank Nifty", def: "Nifty Bank index tracking major Indian banking stocks. More volatile than Nifty 50." },
       { term: "Index fund", def: "A fund that simply buys all stocks in an index. Cheap, simple, beats most traders long-term." }
     ]
   },
@@ -403,7 +411,7 @@ const QUESTS = {
   6: {
     title: "What a broker does",
     world: 2,
-    minutes: 5,
+    minutes: 6,
     xp: 25,
     steps: [
       {
@@ -433,6 +441,20 @@ const QUESTS = {
         </ul>`
       },
       {
+        type: "info",
+        title: "Choosing a broker in real life",
+        body: `<p>For Indian beginners, Zerodha and Dhan are both popular and reliable. Upstox, Angel One, and Groww are also common. The best broker for you depends on execution quality and your workflow.</p>
+        <p>Use this practical checklist:</p>
+        <ul>
+          <li>Platform stability during volatile days (app + web uptime)</li>
+          <li>Order speed and reliability (especially for stop-loss execution)</li>
+          <li>Clear charges: brokerage, DP charges, call & trade charges</li>
+          <li>Easy reports for taxes (P&L, contract notes, ledger)</li>
+          <li>Good support response when something goes wrong</li>
+        </ul>
+        <div class="key-insight"><strong>Simple start:</strong> pick one SEBI-registered broker, learn the platform deeply, and avoid switching apps every week.</div>`
+      },
+      {
         type: "quiz",
         question: "If your broker shuts down tomorrow, what happens to your shares?",
         options: [
@@ -449,6 +471,7 @@ const QUESTS = {
       { term: "Broker", def: "A SEBI-licensed company that places your stock orders on the exchange." },
       { term: "Demat account", def: "A digital account that holds your shares electronically." },
       { term: "Depository", def: "NSDL or CDSL — institutions that actually store your shares." },
+      { term: "Trading platform", def: "The broker app/web terminal (for example Kite or Dhan) used to place and manage orders." },
       { term: "SEBI", def: "Securities and Exchange Board of India — the market regulator." }
     ]
   },
@@ -456,7 +479,7 @@ const QUESTS = {
   7: {
     title: "Order types: market vs limit",
     world: 2,
-    minutes: 6,
+    minutes: 7,
     xp: 25,
     steps: [
       {
@@ -491,6 +514,17 @@ const QUESTS = {
         <p>Beginners: stick with delivery (CNC) for at least the first 6 months.</p>`
       },
       {
+        type: "info",
+        title: "Order tools you'll actually use",
+        body: `<p>Three practical tools most Indian traders use quickly:</p>
+        <ul>
+          <li><strong>GTT (Good Till Triggered):</strong> useful for planned entries/exits when you're not watching screens all day</li>
+          <li><strong>AMO (After Market Order):</strong> place orders after market hours for next day execution</li>
+          <li><strong>Alerts:</strong> set price alerts in TradingView/Kite/Dhan so you act on setups, not random checking</li>
+        </ul>
+        <p>These tools reduce impulsive trades and help you follow your written strategy.</p>`
+      },
+      {
         type: "quiz",
         question: "You want to buy Reliance at ₹2,800 or lower. The current price is ₹2,820. Which order type?",
         options: [
@@ -508,6 +542,8 @@ const QUESTS = {
       { term: "Limit order", def: "Buy/sell only at your specified price or better." },
       { term: "Stop-loss", def: "An automatic sell order that triggers if price falls to a danger level. Always use one." },
       { term: "Delivery / CNC", def: "Buy and keep the stock in your demat. No time pressure." },
+      { term: "GTT", def: "Good Till Triggered order — condition-based order that remains active until triggered or cancelled." },
+      { term: "AMO", def: "After Market Order — order placed after market hours for the next session." },
       { term: "Intraday / MIS", def: "Must square off the same day. Higher leverage but riskier. Avoid as a beginner." }
     ]
   },

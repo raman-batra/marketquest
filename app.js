@@ -22,10 +22,14 @@ const defaultState = {
   trades: [],
   theme: 'warm',
   reminderTime: '20:00',
+  reminderNotificationsEnabled: false,
+  lastReminderSentDate: null,
   startedDate: null
 };
 
 let state = loadState();
+let reminderTimer = null;
+let reminderWatchersBound = false;
 
 function loadState() {
   try {
@@ -154,6 +158,197 @@ function nextUnfinishedQuest() {
   return null; // all done
 }
 
+function todayLocalISO() {
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth() + 1).padStart(2, '0');
+  const d = String(now.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+
+function parseReminderTime(value = state.reminderTime) {
+  const [h, m] = String(value || '').split(':').map(v => parseInt(v, 10));
+  const hours = Number.isFinite(h) ? Math.min(Math.max(h, 0), 23) : 20;
+  const minutes = Number.isFinite(m) ? Math.min(Math.max(m, 0), 59) : 0;
+  return { hours, minutes };
+}
+
+function formatReminderTime(value = state.reminderTime) {
+  const { hours, minutes } = parseReminderTime(value);
+  const sample = new Date();
+  sample.setHours(hours, minutes, 0, 0);
+  return sample.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+}
+
+function notificationsSupported() {
+  return typeof window !== 'undefined' && 'Notification' in window;
+}
+
+function reminderPermissionState() {
+  if (!notificationsSupported()) return 'unsupported';
+  return Notification.permission;
+}
+
+async function requestReminderPermission() {
+  if (!notificationsSupported()) return 'unsupported';
+  if (Notification.permission === 'granted') return 'granted';
+  if (Notification.permission === 'denied') return 'denied';
+  try {
+    return await Notification.requestPermission();
+  } catch (e) {
+    return Notification.permission;
+  }
+}
+
+function isReminderDue(now = new Date()) {
+  const { hours, minutes } = parseReminderTime();
+  const trigger = new Date(now);
+  trigger.setHours(hours, minutes, 0, 0);
+  return now >= trigger;
+}
+
+function getReminderMessage() {
+  const nextId = nextUnfinishedQuest();
+  if (nextId) {
+    const quest = QUESTS[nextId];
+    return `Today's quest: ${quest.title} (${quest.minutes} min). Keep your streak alive.`;
+  }
+  return 'You finished the curriculum. Review your journal and keep your edge sharp.';
+}
+
+function sendNativeNotification(title, body) {
+  if (!notificationsSupported() || Notification.permission !== 'granted') return false;
+  try {
+    new Notification(title, {
+      body,
+      tag: 'marketquest-daily',
+      renotify: false
+    });
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+function deliverDailyReminder(source = 'timer') {
+  const today = todayLocalISO();
+  if (state.lastReminderSentDate === today && source !== 'test') return false;
+  const message = getReminderMessage();
+  const notified = sendNativeNotification('MarketQuest Daily Quest', message);
+  if (!document.hidden || !notified) {
+    toast(`⏰ ${message}`);
+  }
+  if (source !== 'test') {
+    state.lastReminderSentDate = today;
+    saveState();
+  }
+  return true;
+}
+
+function scheduleDailyReminder() {
+  clearTimeout(reminderTimer);
+  reminderTimer = null;
+  if (!state.reminderNotificationsEnabled) return;
+  if (reminderPermissionState() !== 'granted') return;
+
+  const now = new Date();
+  const { hours, minutes } = parseReminderTime();
+  const next = new Date(now);
+  next.setHours(hours, minutes, 0, 0);
+  if (next <= now) next.setDate(next.getDate() + 1);
+
+  const msUntilReminder = Math.max(1000, next.getTime() - now.getTime());
+  reminderTimer = setTimeout(() => {
+    deliverDailyReminder('timer');
+    scheduleDailyReminder();
+  }, msUntilReminder);
+}
+
+function syncReminderSettingsWithPermission() {
+  const permission = reminderPermissionState();
+  if (permission !== 'granted' && state.reminderNotificationsEnabled) {
+    state.reminderNotificationsEnabled = false;
+    saveState();
+  }
+}
+
+function maybeSendCatchupReminder() {
+  if (!state.reminderNotificationsEnabled) return;
+  if (isReminderDue()) deliverDailyReminder('catchup');
+}
+
+function setupReminderWatchers() {
+  if (reminderWatchersBound) return;
+  reminderWatchersBound = true;
+
+  window.addEventListener('focus', () => {
+    maybeSendCatchupReminder();
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) maybeSendCatchupReminder();
+  });
+}
+
+function renderReminderSettings() {
+  const status = document.getElementById('reminderStatus');
+  const hint = document.getElementById('reminderHint');
+  const enableBtn = document.getElementById('enableReminders');
+  const testBtn = document.getElementById('testReminder');
+  if (!status || !hint || !enableBtn || !testBtn) return;
+
+  const permission = reminderPermissionState();
+  const isEnabled = state.reminderNotificationsEnabled && permission === 'granted';
+
+  status.className = 'small reminder-status';
+  if (permission === 'unsupported') {
+    status.textContent = 'Not supported on this browser.';
+    status.classList.add('error');
+    hint.textContent = 'Use a modern mobile browser to enable daily reminders.';
+    enableBtn.disabled = true;
+    testBtn.disabled = true;
+    enableBtn.textContent = 'Not supported';
+    return;
+  }
+
+  if (permission === 'denied') {
+    status.textContent = 'Notifications blocked in browser settings.';
+    status.classList.add('error');
+    hint.textContent = 'Allow notifications in browser/site settings, then enable reminders.';
+    enableBtn.disabled = false;
+    testBtn.disabled = true;
+    enableBtn.textContent = 'Retry permission';
+    return;
+  }
+
+  if (isEnabled) {
+    status.textContent = `On · Daily at ${formatReminderTime()}`;
+    status.classList.add('ok');
+    hint.textContent = 'Best experience on mobile when the app is installed and opened regularly.';
+    enableBtn.disabled = false;
+    testBtn.disabled = false;
+    enableBtn.textContent = 'Pause reminders';
+    return;
+  }
+
+  if (permission === 'granted') {
+    status.textContent = 'Permission granted · reminders currently paused.';
+    status.classList.add('warn');
+    hint.textContent = 'Turn reminders on to get your daily quest nudge.';
+    enableBtn.disabled = false;
+    testBtn.disabled = false;
+    enableBtn.textContent = 'Enable reminders';
+    return;
+  }
+
+  status.textContent = 'Permission not granted yet.';
+  status.classList.add('warn');
+  hint.textContent = 'Tap enable to allow notifications and set your daily reminder.';
+  enableBtn.disabled = false;
+  testBtn.disabled = true;
+  enableBtn.textContent = 'Enable reminders';
+}
+
 // ─── ONBOARDING ───
 function initOnboarding() {
   const ob = document.getElementById('onboarding');
@@ -247,6 +442,7 @@ function initOnboarding() {
 
 // ─── App init ───
 function initApp() {
+  syncReminderSettingsWithPermission();
   applyTheme(state.theme);
   refreshTopBar();
   updateStreak();
@@ -258,6 +454,10 @@ function initApp() {
   renderGlossary();
   setupNavigation();
   setupModals();
+  setupReminderWatchers();
+  renderReminderSettings();
+  maybeSendCatchupReminder();
+  scheduleDailyReminder();
   checkBadges();
 }
 
@@ -276,13 +476,27 @@ function renderHome() {
   const hour = new Date().getHours();
   const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
   const displayName = (state.name || '').trim();
+  const totalQuests = Object.keys(QUESTS).length;
+  const doneQuests = state.completedQuests.length;
+  const progressPct = Math.round((doneQuests / totalQuests) * 100);
+
   document.getElementById('greetingText').textContent = displayName ? `${greeting}, ${displayName}` : greeting;
+  if (doneQuests === 0) {
+    document.getElementById('greetingSub').textContent = 'Start with one 5-minute quest today. Momentum beats intensity.';
+  } else if (doneQuests < totalQuests) {
+    document.getElementById('greetingSub').textContent = `You're ${progressPct}% through the journey. Keep stacking small wins.`;
+  } else {
+    document.getElementById('greetingSub').textContent = 'Curriculum complete. Keep leveling up with journaling and review.';
+  }
 
   // Streak banner
   const banner = document.getElementById('streakBanner');
   if (state.streakCount > 1) {
     banner.classList.add('visible');
     banner.innerHTML = `🔥 You're on a <strong>${state.streakCount}-day</strong> streak. Don't break the chain!`;
+  } else {
+    banner.classList.remove('visible');
+    banner.innerHTML = '';
   }
 
   // Today's quest
@@ -303,8 +517,6 @@ function renderHome() {
   }
 
   // Progress bars
-  const totalQuests = Object.keys(QUESTS).length;
-  const doneQuests = state.completedQuests.length;
   document.getElementById('questProgress').style.width = `${(doneQuests / totalQuests) * 100}%`;
   document.getElementById('questProgressText').textContent = `${doneQuests} of ${totalQuests} quests`;
 
@@ -654,24 +866,79 @@ function completeQuest() {
 
 // ─── MODALS / MENU ───
 function setupModals() {
+  const menuDrawer = document.getElementById('menuDrawer');
+  const reminderTime = document.getElementById('reminderTime');
+
   document.getElementById('menuBtn').addEventListener('click', () => {
-    document.getElementById('menuDrawer').classList.remove('hidden');
+    menuDrawer.classList.remove('hidden');
     document.getElementById('themeSelect').value = state.theme;
-    document.getElementById('reminderTime').value = state.reminderTime;
+    reminderTime.value = state.reminderTime;
+    renderReminderSettings();
   });
   document.getElementById('closeMenu').addEventListener('click', () => {
-    document.getElementById('menuDrawer').classList.add('hidden');
+    menuDrawer.classList.add('hidden');
   });
-  document.getElementById('themeSelect').addEventListener('change', e => {
+  document.getElementById('themeSelect').addEventListener('change', (e) => {
     state.theme = e.target.value;
     applyTheme(state.theme);
     saveState();
   });
-  document.getElementById('reminderTime').addEventListener('change', e => {
+  reminderTime.addEventListener('change', (e) => {
     state.reminderTime = e.target.value;
     saveState();
-    toast(`Reminder set for ${e.target.value}`);
+    scheduleDailyReminder();
+    renderReminderSettings();
+    toast(`Reminder time set for ${formatReminderTime()}.`);
   });
+
+  document.getElementById('enableReminders').addEventListener('click', async () => {
+    const permission = reminderPermissionState();
+    if (permission === 'unsupported') {
+      toast('Notifications are not supported on this browser.');
+      renderReminderSettings();
+      return;
+    }
+
+    if (permission === 'granted' && state.reminderNotificationsEnabled) {
+      state.reminderNotificationsEnabled = false;
+      saveState();
+      scheduleDailyReminder();
+      renderReminderSettings();
+      toast('Daily reminders paused.');
+      return;
+    }
+
+    const result = await requestReminderPermission();
+    if (result === 'granted') {
+      state.reminderNotificationsEnabled = true;
+      saveState();
+      scheduleDailyReminder();
+      renderReminderSettings();
+      sendNativeNotification('MarketQuest reminders enabled', `Next learning nudge is set for ${formatReminderTime()}.`);
+      toast(`Daily reminders enabled for ${formatReminderTime()}.`);
+      return;
+    }
+
+    state.reminderNotificationsEnabled = false;
+    saveState();
+    scheduleDailyReminder();
+    renderReminderSettings();
+    if (result === 'denied') {
+      toast('Notification permission denied. Enable it in browser settings anytime.');
+    } else {
+      toast('Notification permission not granted yet.');
+    }
+  });
+
+  document.getElementById('testReminder').addEventListener('click', () => {
+    if (reminderPermissionState() !== 'granted') {
+      toast('Enable notifications first to send a test reminder.');
+      return;
+    }
+    const sent = sendNativeNotification('MarketQuest test reminder', getReminderMessage());
+    toast(sent ? '🔔 Test reminder sent.' : `⏰ ${getReminderMessage()}`);
+  });
+
   document.getElementById('exportData').addEventListener('click', () => {
     const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);

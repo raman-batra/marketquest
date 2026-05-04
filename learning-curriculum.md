@@ -424,7 +424,7 @@ Before placing your first real-money trade, you should be able to honestly answe
 - [ ] My trading capital is genuinely "lose 100% and life continues" money
 - [ ] I have not joined a single paid Telegram tip channel
 - [ ] I know what a 30% drawdown will *feel* like (have I imagined it?)
-- [ ] I have someone I can talk to about losses without it being a crisis (spouse, friend, therapist)
+- [ ] I have someone I can talk to about losses without it being a crisis (friend, family member, mentor, therapist)
 
 Anything not checked? **Don't go live until it is.**
 

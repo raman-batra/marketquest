@@ -282,6 +282,17 @@
         <span>Daily reminder time</span>
         <input type="time" id="reminderTime" value="20:00" />
       </div>
+      <div class="menu-item menu-item-stack">
+        <span>Daily reminders</span>
+        <div class="reminder-controls">
+          <p id="reminderStatus" class="small reminder-status">Notifications are off.</p>
+          <div class="reminder-buttons">
+            <button id="enableReminders" type="button" class="btn-secondary btn-small">Enable reminders</button>
+            <button id="testReminder" type="button" class="btn-secondary btn-small">Send test</button>
+          </div>
+          <p id="reminderHint" class="muted small">Allow notifications to get a daily nudge to learn.</p>
+        </div>
+      </div>
       <div class="menu-item">
         <span>Theme</span>
         <select id="themeSelect">

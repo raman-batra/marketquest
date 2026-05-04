@@ -136,6 +136,12 @@ input:focus, textarea:focus, select:focus {
   border-radius: var(--radius-md);
   font-weight: 500;
 }
+.btn-small {
+  padding: 0.45rem 0.75rem;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
 .icon-btn {
   width: 36px; height: 36px;
   border-radius: 50%;
@@ -870,10 +876,34 @@ input:focus, textarea:focus, select:focus {
   border-bottom: 1px solid var(--line);
   font-weight: 500;
 }
+.menu-item-stack {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.65rem;
+}
 .menu-item input, .menu-item select {
   width: auto;
   max-width: 180px;
 }
+.reminder-controls {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+.reminder-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.reminder-status {
+  margin: 0;
+  color: var(--ink-soft);
+}
+.reminder-status.ok { color: var(--accent-deep); }
+.reminder-status.warn { color: var(--ink-soft); }
+.reminder-status.error { color: var(--error); }
+#reminderHint { margin: 0; }
 .menu-content hr {
   border: none;
   border-top: 1px solid var(--line);
@@ -903,5 +933,12 @@ input:focus, textarea:focus, select:focus {
   .menu-item input, .menu-item select {
     width: 100%;
     max-width: none;
+  }
+  .reminder-buttons {
+    width: 100%;
+    gap: 0.45rem;
+  }
+  .reminder-buttons .btn-small {
+    width: 100%;
   }
 }
