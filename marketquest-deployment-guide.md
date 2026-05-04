@@ -57,7 +57,7 @@ Wait 1-2 minutes. Refresh the page. You'll see a message like:
 
 > Your site is live at `https://yourusername.github.io/marketquest/`
 
-That's the link to share with your wife. Bookmark it on her phone home screen — it works like an app.
+That's the link to share with the learner. Bookmark it on the phone home screen — it works like an app.
 
 ### Step 5 (optional): Make updates later
 To update content or fix anything, just go back to the repo, click any file, click the pencil icon, edit, and commit. Changes go live in ~1 minute.
@@ -108,12 +108,12 @@ The order matters. Risk management comes BEFORE chart reading. Most beginners le
 
 ---
 
-## How she should use it
+## How to use it
 
 - **5 minutes a day is enough.** Quests are designed to be tiny. Daily streak > marathon sessions.
 - **Don't skip ahead.** Quests unlock sequentially. The order is intentional.
 - **Visit the Foundation tab early.** Those 6 prerequisites (emergency fund, insurance, debt cleared, etc.) matter more than any quest.
-- **The Journal tab waits.** It's for after Quest 25, when she starts paper trading.
+- **The Journal tab waits.** It's for after Quest 25, when paper trading begins.
 - **No pressure.** No deadlines. The app celebrates streaks, but missing a day is fine — just pick up tomorrow.
 
 ---
@@ -125,15 +125,15 @@ The order matters. Risk management comes BEFORE chart reading. Most beginners le
 - Show live prices
 - Send tips or signals
 - Sell anything
-- Track her data online
+- Track user data online
 
-This is intentional. The curriculum's whole purpose is to make her confident enough to make her own decisions — not to make her dependent on someone else's calls.
+This is intentional. The curriculum's whole purpose is to build confidence for independent decisions — not dependence on someone else's calls.
 
 ---
 
 ## Privacy
 
-Everything lives in her browser's localStorage. Nothing is sent to any server. Clearing browser data resets the app. The "Export my data" button in the menu lets her back up her progress as a JSON file.
+Everything lives in the browser's localStorage. Nothing is sent to any server. Clearing browser data resets the app. The "Export my data" button in the menu lets users back up progress as a JSON file.
 
 ---
 

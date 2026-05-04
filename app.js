@@ -180,11 +180,34 @@ function initOnboarding() {
 
   // Step 1: name
   const nameInput = document.getElementById('userName');
+  const nameContinueBtn = document.getElementById('nameContinueBtn');
+  const nameHelp = document.getElementById('nameHelp');
+
+  function normalizedName(raw) {
+    return raw.replace(/\s+/g, ' ').trim();
+  }
+
+  function updateNameStepState() {
+    const value = normalizedName(nameInput.value);
+    const valid = value.length > 0;
+    nameContinueBtn.disabled = !valid;
+    nameHelp.textContent = valid ? 'Looks good. Continue to customize your learning path.' : 'Type your name to continue.';
+  }
+
+  function proceedFromNameStep() {
+    const value = normalizedName(nameInput.value);
+    if (!value) return;
+    state.name = value;
+    showStep(2);
+  }
+
+  nameInput.value = state.name || '';
+  updateNameStepState();
+
+  nameInput.addEventListener('input', updateNameStepState);
+  nameContinueBtn.addEventListener('click', proceedFromNameStep);
   nameInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter' && nameInput.value.trim().length > 0) {
-      state.name = nameInput.value.trim();
-      showStep(2);
-    }
+    if (e.key === 'Enter') proceedFromNameStep();
   });
 
   // Step 2: level
@@ -205,6 +228,12 @@ function initOnboarding() {
 
   // Step 4: start
   document.getElementById('startJourney').addEventListener('click', () => {
+    if (!state.name) {
+      showStep(1);
+      nameInput.focus();
+      updateNameStepState();
+      return;
+    }
     state.onboarded = true;
     state.startedDate = todayISO();
     saveState();
@@ -246,7 +275,8 @@ function refreshTopBar() {
 function renderHome() {
   const hour = new Date().getHours();
   const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
-  document.getElementById('greetingText').textContent = `${greeting}, ${state.name}`;
+  const displayName = (state.name || '').trim();
+  document.getElementById('greetingText').textContent = displayName ? `${greeting}, ${displayName}` : greeting;
 
   // Streak banner
   const banner = document.getElementById('streakBanner');

@@ -25,6 +25,10 @@
       <div class="onboarding-step" data-step="1">
         <label class="onboarding-label">What should we call you?</label>
         <input type="text" id="userName" placeholder="Your name" maxlength="20" />
+        <div class="onboarding-name-row">
+          <button id="nameContinueBtn" class="btn-primary" disabled>Continue →</button>
+        </div>
+        <p id="nameHelp" class="muted small">Type your name to continue.</p>
       </div>
 
       <div class="onboarding-step hidden" data-step="2">
@@ -287,8 +291,8 @@
         </select>
       </div>
       <hr />
-      <button id="exportData" class="btn-secondary">Export my data</button>
-      <button id="resetData" class="btn-danger">Reset everything</button>
+      <button id="exportData" class="btn-secondary menu-action">Export my data</button>
+      <button id="resetData" class="btn-danger menu-action">Reset everything</button>
       <p class="muted small">Your data lives only on this device. Nothing is sent anywhere.</p>
     </div>
   </div>
