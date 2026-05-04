@@ -8,9 +8,9 @@ Built as a single-page web app. No backend, no database, no signup. Progress is 
 
 ## Features
 
-- **35 bite-sized quests** organized into 10 themed worlds (5-10 minutes each)
+- **37 bite-sized quests** organized into 10 themed worlds (5-10 minutes each)
 - **Streaks, XP, levels, and 15 badges** to build a daily habit
-- **Foundation checklist** — the 6 financial prerequisites before risking money
+- **Foundation checklist** — 10 practical prerequisites before risking money
 - **Built-in trade journal** for paper trading practice
 - **Auto-building glossary** that grows as you complete quests
 - **3 themes** (warm, dark, ocean)
@@ -112,7 +112,7 @@ The order matters. Risk management comes BEFORE chart reading. Most beginners le
 
 - **5 minutes a day is enough.** Quests are designed to be tiny. Daily streak > marathon sessions.
 - **Don't skip ahead.** Quests unlock sequentially. The order is intentional.
-- **Visit the Foundation tab early.** Those 6 prerequisites (emergency fund, insurance, debt cleared, etc.) matter more than any quest.
+- **Visit the Foundation tab early.** Those 10 prerequisites (money basics + tooling + recordkeeping) matter more than any quest.
 - **The Journal tab waits.** It's for after Quest 25, when paper trading begins.
 - **No pressure.** No deadlines. The app celebrates streaks, but missing a day is fine — just pick up tomorrow.
 

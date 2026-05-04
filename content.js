@@ -71,9 +71,9 @@ const WORLDS = [
   {
     id: 10,
     title: "Going live (carefully)",
-    description: "Real money, tiny size, eyes wide open.",
+    description: "Real money, compliance, execution, and long-term discipline.",
     icon: "🚀",
-    questIds: [33, 34, 35]
+    questIds: [33, 34, 35, 36, 37]
   }
 ];
 
@@ -114,6 +114,30 @@ const PREREQS = [
     title: "Demat account opened",
     desc: "Zerodha, Dhan, Upstox, or similar. Don't trade yet.",
     xp: 100
+  },
+  {
+    id: "sizing-math",
+    title: "Position sizing math ready",
+    desc: "You can calculate 1% risk and quantity in under 60 seconds.",
+    xp: 100
+  },
+  {
+    id: "toolkit",
+    title: "Trading toolkit configured",
+    desc: "TradingView watchlist + broker app + a simple tracking sheet are ready.",
+    xp: 100
+  },
+  {
+    id: "time-block",
+    title: "Daily learning block protected",
+    desc: "At least 20 focused minutes reserved for charts/journal every market day.",
+    xp: 100
+  },
+  {
+    id: "tax-folder",
+    title: "Tax records workflow in place",
+    desc: "Contract notes, broker P&L, and ledger files are saved monthly in one folder.",
+    xp: 100
   }
 ];
 
@@ -147,7 +171,10 @@ const QUOTES = [
   "Time in the market beats timing the market.",
   "Successful investing is about managing risk, not avoiding it. — Benjamin Graham",
   "It's not whether you're right or wrong that's important, but how much money you make when you're right and how much you lose when you're wrong. — George Soros",
-  "The stock market is filled with individuals who know the price of everything, but the value of nothing. — Phil Fisher"
+  "The stock market is filled with individuals who know the price of everything, but the value of nothing. — Phil Fisher",
+  "The market is supreme. Nobody is bigger than the market. — Rakesh Jhunjhunwala",
+  "If your downside is protected, upside takes care of itself. — Mark Minervini",
+  "A bull market is when quality and patience get paid. A bear market is when risk rules save you."
 ];
 
 // ─── QUESTS — the heart of the curriculum ───
@@ -379,11 +406,31 @@ const QUESTS = {
         <ul>
           <li><strong>Sensex:</strong> 30 large companies on BSE</li>
           <li><strong>Nifty Bank (Bank Nifty):</strong> major banking stocks; usually moves faster than Nifty 50</li>
+          <li><strong>Nifty IT:</strong> tracks major IT services companies; useful barometer for tech-export sentiment</li>
           <li><strong>Nifty Next 50:</strong> the next layer after Nifty 50, often more volatile</li>
         </ul>
         <p>For beginners, track Nifty 50 first. Add Bank Nifty only after your risk rules are solid.</p>
         <p>Indexes give you the market's mood at a glance. They also let you invest in the entire top 50 in one click — through index funds. (The boring, profitable kind of investing.)</p>
         <div class="key-insight"><strong>Tip:</strong> If you do nothing else from this app, set up a monthly SIP into a Nifty 50 index fund. Over 20 years, this beats most traders.</div>`
+      },
+      {
+        type: "info",
+        title: "5-minute India market pulse",
+        body: `<p>Before every session, quickly scan 4 indices:</p>
+        <ol>
+          <li><strong>Nifty 50</strong> for broad market tone</li>
+          <li><strong>Sensex</strong> for cross-check</li>
+          <li><strong>Bank Nifty</strong> for financial sector risk-on/risk-off mood</li>
+          <li><strong>Nifty IT</strong> for tech/export sentiment</li>
+        </ol>
+        <p>Track gap-up/gap-down, trend direction, and whether sectors agree with each other. If signals conflict, reduce risk.</p>
+        <p>Quick links:</p>
+        <ul>
+          <li><a href="https://www.tradingview.com/symbols/NSE-NIFTY/" target="_blank" rel="noopener noreferrer">Nifty 50 live chart</a></li>
+          <li><a href="https://www.tradingview.com/symbols/BSE-SENSEX/" target="_blank" rel="noopener noreferrer">Sensex live chart</a></li>
+          <li><a href="https://www.tradingview.com/symbols/NSE-BANKNIFTY/" target="_blank" rel="noopener noreferrer">Bank Nifty live chart</a></li>
+          <li><a href="https://www.tradingview.com/symbols/NSE-CNXIT/" target="_blank" rel="noopener noreferrer">Nifty IT live chart</a></li>
+        </ul>`
       },
       {
         type: "quiz",
@@ -404,6 +451,7 @@ const QUESTS = {
       { term: "Nifty 50", def: "Index of India's top 50 companies by size, traded on NSE." },
       { term: "Sensex", def: "Index of 30 large companies, traded on BSE." },
       { term: "Bank Nifty", def: "Nifty Bank index tracking major Indian banking stocks. More volatile than Nifty 50." },
+      { term: "Nifty IT", def: "Index tracking major listed Indian IT companies; useful for gauging technology sector momentum." },
       { term: "Index fund", def: "A fund that simply buys all stocks in an index. Cheap, simple, beats most traders long-term." }
     ]
   },
@@ -578,6 +626,27 @@ const QUESTS = {
         <p>For long-term investing (holding 5+ years), costs are negligible. One more reason long-term wins for most people.</p>`
       },
       {
+        type: "info",
+        title: "India 2026 tax map (starter version)",
+        body: `<p>Transaction charges are one layer. Income tax treatment is the other big layer.</p>
+        <ul>
+          <li><strong>Equity delivery:</strong> usually treated as capital gains (short-term vs long-term holding period)</li>
+          <li><strong>Intraday equity:</strong> usually treated as speculative business income</li>
+          <li><strong>F&O:</strong> usually treated as non-speculative business income</li>
+          <li><strong>Losses:</strong> set-off and carry-forward rules apply only if filings are done correctly and on time</li>
+        </ul>
+        <p>Rules and rates can change with Finance Acts/Budgets. Do not depend on memory screenshots from social media.</p>
+        <p>Keep this monthly routine:</p>
+        <ol>
+          <li>Download contract notes + broker tax P&amp;L + ledger</li>
+          <li>Store in one folder by financial year</li>
+          <li>Reconcile with your bank statement</li>
+          <li>Do a yearly review with a CA before filing</li>
+        </ol>
+        <div class="key-insight"><strong>Ground rule:</strong> tax mistakes kill confidence and cash flow. Clean records are part of trading edge.</div>
+        <p>Official references: <a href="https://www.incometax.gov.in/" target="_blank" rel="noopener noreferrer">Income Tax portal</a> · <a href="https://www.sebi.gov.in/legal/circulars.html" target="_blank" rel="noopener noreferrer">SEBI circulars</a> · <a href="https://www.nseindia.com/regulations" target="_blank" rel="noopener noreferrer">NSE regulations</a>.</p>`
+      },
+      {
         type: "quiz",
         question: "You make 200 trades a year, each turning over ₹10,000. Roughly how much do you pay in costs per year?",
         options: [
@@ -594,7 +663,9 @@ const QUESTS = {
       { term: "STT", def: "Securities Transaction Tax — paid to the government on every buy/sell." },
       { term: "Brokerage", def: "Fee charged by your broker per trade. Discount brokers: ₹0 delivery, ₹20 intraday/F&O." },
       { term: "DP charges", def: "Charged when you sell from your demat account. ~₹16 per stock." },
-      { term: "Round trip cost", def: "Total cost of one buy + one sell. Roughly 0.3-0.5% for retail." }
+      { term: "Round trip cost", def: "Total cost of one buy + one sell. Roughly 0.3-0.5% for retail." },
+      { term: "STCG / LTCG", def: "Short-term and long-term capital gains buckets for delivery equity. Holding period matters." },
+      { term: "Speculative vs non-speculative", def: "Intraday equity is usually speculative income; F&O is usually non-speculative business income." }
     ]
   },
 
@@ -1044,7 +1115,11 @@ const QUESTS = {
     ],
     glossary: [
       { term: "Candlestick", def: "A chart marker showing open, high, low, close for a time period." },
-      { term: "Body / Wick", def: "Body = open-to-close. Wicks (or shadows) = the high and low extremes." }
+      { term: "Body / Wick", def: "Body = open-to-close. Wicks (or shadows) = the high and low extremes." },
+      { term: "Doji", def: "Very small body candle showing indecision. Useful only with context (trend, level, volume)." },
+      { term: "Hammer", def: "Small body with long lower wick after a fall; can signal rejection of lower prices." },
+      { term: "Engulfing candle", def: "A candle body that fully covers the prior candle body; can signal momentum shift." },
+      { term: "Marubozu", def: "Long body with tiny/no wicks; shows strong one-sided control by buyers or sellers." }
     ]
   },
 
@@ -1189,6 +1264,19 @@ const QUESTS = {
         <p>You'd be surprised how far these alone get you.</p>`
       },
       {
+        type: "info",
+        title: "TradingView workflow (India practical)",
+        body: `<p>Set up one clean workspace and reuse it daily:</p>
+        <ol>
+          <li>Create a watchlist: Nifty 50, Bank Nifty, Nifty IT, and 15-20 stocks you actually track</li>
+          <li>Use timeframe stack: <strong>Daily → 1H → 15m</strong> (trend, setup, execution)</li>
+          <li>Add only 50DMA + volume + your own support/resistance lines</li>
+          <li>Set alerts at levels so you react intentionally, not by random app-checking</li>
+          <li>After market close, screenshot 2 best and 2 worst charts with notes</li>
+        </ol>
+        <p>Useful links: <a href="https://www.tradingview.com/" target="_blank" rel="noopener noreferrer">TradingView</a> · <a href="https://zerodha.com/varsity/" target="_blank" rel="noopener noreferrer">Zerodha Varsity</a> · <a href="https://web.dhan.co/" target="_blank" rel="noopener noreferrer">Dhan Web</a>.</p>`
+      },
+      {
         type: "quiz",
         question: "Your friend says 'I use 8 indicators on every chart and still lose money.' What's likely wrong?",
         options: [
@@ -1233,9 +1321,10 @@ const QUESTS = {
         title: "Where to check",
         body: `<p>Two free, excellent tools:</p>
         <h3>Screener.in</h3>
-        <p>Look up any stock. See 10-year financials, ratios, news. The cleanest fundamentals tool for India.</p>
+        <p>Look up any stock. See 10-year financials, ratios, news. The cleanest fundamentals tool for India. <a href="https://www.screener.in/" target="_blank" rel="noopener noreferrer">Open Screener</a></p>
         <h3>Tickertape</h3>
-        <p>Similar, with a friendlier UI. Good for beginners.</p>
+        <p>Similar, with a friendlier UI. Good for beginners. <a href="https://www.tickertape.in/" target="_blank" rel="noopener noreferrer">Open Tickertape</a></p>
+        <p>For filings and official announcements, also check <a href="https://www.nseindia.com/companies-listing/corporate-filings-financial-results" target="_blank" rel="noopener noreferrer">NSE corporate filings</a> and <a href="https://www.bseindia.com/corporates/ann.html" target="_blank" rel="noopener noreferrer">BSE corporate announcements</a>.</p>
         <p>Both free. Both essential. Bookmark them.</p>
         <div class="key-insight"><strong>Rule:</strong> if a stock isn't on Screener.in or you can't easily find its financials, don't trade it. Period.</div>`
       },
@@ -1380,11 +1469,12 @@ const QUESTS = {
         title: "Where to paper trade",
         body: `<p>Three free options for India:</p>
         <ul>
-          <li><strong>TradingView paper trading</strong> — built into the charts you're already using. Easiest.</li>
-          <li><strong>Sensibull virtual trading</strong> — best if you eventually want options. Realistic Indian fills.</li>
-          <li><strong>Moneybhai by Moneycontrol</strong> — full simulated broker.</li>
+          <li><strong>TradingView paper trading</strong> — built into the charts you're already using. Easiest. <a href="https://www.tradingview.com/" target="_blank" rel="noopener noreferrer">Open</a></li>
+          <li><strong>Sensibull virtual trading</strong> — best if you eventually want options. Realistic Indian fills. <a href="https://sensibull.com/" target="_blank" rel="noopener noreferrer">Open</a></li>
+          <li><strong>Moneybhai by Moneycontrol</strong> — full simulated broker. <a href="https://www.moneycontrol.com/moneybhai/" target="_blank" rel="noopener noreferrer">Open</a></li>
         </ul>
-        <p>Pick one. Stick with it. Don't switch around.</p>`
+        <p>Pick one. Stick with it. Don't switch around.</p>
+        <p>For daily context while paper trading: <a href="https://www.moneycontrol.com/stocksmarketsindia/" target="_blank" rel="noopener noreferrer">Moneycontrol Markets</a> · <a href="https://economictimes.indiatimes.com/markets" target="_blank" rel="noopener noreferrer">ET Markets</a> · <a href="https://www.livemint.com/market" target="_blank" rel="noopener noreferrer">Mint Markets</a>.</p>`
       },
       {
         type: "info",
@@ -1932,7 +2022,7 @@ const QUESTS = {
       {
         type: "info",
         title: "What survival looks like",
-        body: `<p>You've made it through 35 quests. You know more than 95% of retail traders. Here's what comes next:</p>
+        body: `<p>You've made it through the core foundation quests. You now know what actually matters on ground in Indian markets. Here's what comes next:</p>
         <ul>
           <li><strong>Year 1:</strong> tiny sizes, strict rules, honest journal. Goal: not lose money. Profit is a bonus.</li>
           <li><strong>Year 2:</strong> if year 1 was disciplined and net positive, scale up. Add a second strategy. Continue journaling.</li>
@@ -1967,6 +2057,26 @@ const QUESTS = {
         <p>You've earned the Graduate badge. Hard part starts now.</p>`
       },
       {
+        type: "info",
+        title: "One-stop India market stack (2026)",
+        body: `<p>Use this as your operating stack:</p>
+        <h3>Live indices and prices</h3>
+        <ul>
+          <li><a href="https://www.tradingview.com/symbols/NSE-NIFTY/" target="_blank" rel="noopener noreferrer">Nifty 50</a> · <a href="https://www.tradingview.com/symbols/NSE-BANKNIFTY/" target="_blank" rel="noopener noreferrer">Bank Nifty</a> · <a href="https://www.tradingview.com/symbols/NSE-CNXIT/" target="_blank" rel="noopener noreferrer">Nifty IT</a> · <a href="https://www.tradingview.com/symbols/BSE-SENSEX/" target="_blank" rel="noopener noreferrer">Sensex</a></li>
+        </ul>
+        <h3>News and filings</h3>
+        <ul>
+          <li><a href="https://www.moneycontrol.com/stocksmarketsindia/" target="_blank" rel="noopener noreferrer">Moneycontrol Markets</a> · <a href="https://economictimes.indiatimes.com/markets" target="_blank" rel="noopener noreferrer">ET Markets</a> · <a href="https://www.nseindia.com/companies-listing/corporate-filings-financial-results" target="_blank" rel="noopener noreferrer">NSE filings</a></li>
+        </ul>
+        <h3>Learning channels (education only, no tips)</h3>
+        <ul>
+          <li><a href="https://www.youtube.com/@NSEIndiaOfficial" target="_blank" rel="noopener noreferrer">NSE India Official YouTube</a></li>
+          <li><a href="https://www.youtube.com/@zerodhaonline" target="_blank" rel="noopener noreferrer">Zerodha channel</a> + <a href="https://zerodha.com/varsity/" target="_blank" rel="noopener noreferrer">Varsity</a></li>
+          <li><a href="https://www.youtube.com/@BSEIndiaLtd" target="_blank" rel="noopener noreferrer">BSE India YouTube</a></li>
+        </ul>
+        <p><strong>Filter rule:</strong> ignore anyone selling guaranteed returns, tip groups, or screenshot P&amp;L as proof.</p>`
+      },
+      {
         type: "quiz",
         question: "You graduate this curriculum. You make ₹2 lakh in your first year of live trading. What's the wisest move?",
         options: [
@@ -1980,6 +2090,130 @@ const QUESTS = {
       }
     ],
     glossary: []
+  },
+
+  36: {
+    title: "Tax, compliance, and legal hygiene (India 2026)",
+    world: 10,
+    minutes: 8,
+    xp: 65,
+    steps: [
+      {
+        type: "info",
+        title: "How Indian tax treatment usually works",
+        body: `<p>For practical planning, think in 3 buckets:</p>
+        <ul>
+          <li><strong>Delivery equity:</strong> typically capital gains (short-term vs long-term holding period)</li>
+          <li><strong>Intraday equity:</strong> typically speculative business income</li>
+          <li><strong>F&O:</strong> typically non-speculative business income</li>
+        </ul>
+        <p>The treatment affects set-off, carry-forward, and filing workflow. If you mix products, your bookkeeping must be clean from day one.</p>
+        <div class="key-insight"><strong>Reality check:</strong> most retail traders don't fail only on strategy. They fail on risk + records + taxes.</div>`
+      },
+      {
+        type: "info",
+        title: "Your compliance routine (simple and realistic)",
+        body: `<p>Keep this repeatable process:</p>
+        <ol>
+          <li><strong>Monthly:</strong> download contract notes, P&amp;L, ledger, and margin statements from broker</li>
+          <li><strong>Quarterly:</strong> reconcile totals with bank statement and journal exports</li>
+          <li><strong>Year-end:</strong> finalize books with a CA before ITR filing deadline</li>
+          <li><strong>Always:</strong> file on time if you want loss carry-forward benefits</li>
+        </ol>
+        <p>Official sources (check every filing year): <a href="https://www.incometax.gov.in/" target="_blank" rel="noopener noreferrer">Income Tax portal</a> · <a href="https://www.sebi.gov.in/legal/circulars.html" target="_blank" rel="noopener noreferrer">SEBI circulars</a> · <a href="https://www.nseindia.com/regulations" target="_blank" rel="noopener noreferrer">NSE regulations</a>.</p>`
+      },
+      {
+        type: "info",
+        title: "Stay legal, stay safe",
+        body: `<p>2024-26 saw repeated action on illegal tip channels and fake advisors. Protect yourself:</p>
+        <ul>
+          <li>Do not trade from Telegram/WhatsApp tips</li>
+          <li>Verify any advisor claim on official registries before paying</li>
+          <li>Use only SEBI-registered brokers and known payment rails</li>
+          <li>Treat "guaranteed returns" as automatic fraud signal</li>
+        </ul>
+        <p>Verification links: <a href="https://www.sebi.gov.in/sebiweb/other/OtherAction.do?doRecognised=yes" target="_blank" rel="noopener noreferrer">SEBI recognised entities</a> · <a href="https://www.bseindia.com/markets/MarketInfo/DispNoticesCirculars.aspx?page=2026" target="_blank" rel="noopener noreferrer">BSE notices</a>.</p>`
+      },
+      {
+        type: "quiz",
+        question: "You traded delivery, intraday, and F&O this year. What's the most professional approach?",
+        options: [
+          "Ignore records and estimate at year-end",
+          "Keep monthly broker reports + reconcile quarterly + file with CA support on time",
+          "Only track winning trades for taxes",
+          "Skip filing if net profit is small"
+        ],
+        correct: 1,
+        explanation: "Correct. Consistent records and timely filing are part of your trading system, not optional admin work."
+      }
+    ],
+    glossary: [
+      { term: "Capital gains", def: "Profit/loss from delivery equity, generally categorized by holding period." },
+      { term: "Speculative income", def: "Common tax treatment bucket for intraday equity trading income/loss." },
+      { term: "Non-speculative business income", def: "Common tax treatment bucket for F&O business trading activity." },
+      { term: "Carry-forward", def: "Using eligible current-year losses against future profits, subject to filing rules." }
+    ]
+  },
+
+  37: {
+    title: "30-minute India market operating system",
+    world: 10,
+    minutes: 9,
+    xp: 70,
+    steps: [
+      {
+        type: "info",
+        title: "A routine that works on ground",
+        body: `<p>Use this 30-minute workflow daily:</p>
+        <ul>
+          <li><strong>Pre-open (10 min):</strong> scan Nifty 50, Sensex, Bank Nifty, Nifty IT; note global overnight cues</li>
+          <li><strong>During market (10 min):</strong> wait for your setup only, no random entries</li>
+          <li><strong>Post-close (10 min):</strong> journal, screenshot chart, and mark tomorrow's levels</li>
+        </ul>
+        <p>If no setup appears, zero trades is a valid day. Discipline beats activity.</p>`
+      },
+      {
+        type: "info",
+        title: "Resource hub (prices, news, education)",
+        body: `<p>Keep a bookmark folder called <strong>MarketQuest Daily</strong>:</p>
+        <ul>
+          <li><a href="https://www.tradingview.com/symbols/NSE-NIFTY/" target="_blank" rel="noopener noreferrer">Nifty 50</a> · <a href="https://www.tradingview.com/symbols/NSE-BANKNIFTY/" target="_blank" rel="noopener noreferrer">Bank Nifty</a> · <a href="https://www.tradingview.com/symbols/NSE-CNXIT/" target="_blank" rel="noopener noreferrer">Nifty IT</a> · <a href="https://www.tradingview.com/symbols/BSE-SENSEX/" target="_blank" rel="noopener noreferrer">Sensex</a></li>
+          <li><a href="https://www.moneycontrol.com/stocksmarketsindia/" target="_blank" rel="noopener noreferrer">Moneycontrol Markets</a> · <a href="https://economictimes.indiatimes.com/markets" target="_blank" rel="noopener noreferrer">ET Markets</a> · <a href="https://www.livemint.com/market" target="_blank" rel="noopener noreferrer">Mint Markets</a></li>
+          <li><a href="https://www.nseindia.com/companies-listing/corporate-filings-financial-results" target="_blank" rel="noopener noreferrer">NSE filings</a> · <a href="https://www.bseindia.com/corporates/ann.html" target="_blank" rel="noopener noreferrer">BSE announcements</a></li>
+          <li><a href="https://zerodha.com/varsity/" target="_blank" rel="noopener noreferrer">Zerodha Varsity</a> · <a href="https://www.youtube.com/@NSEIndiaOfficial" target="_blank" rel="noopener noreferrer">NSE YouTube</a> · <a href="https://www.youtube.com/@zerodhaonline" target="_blank" rel="noopener noreferrer">Zerodha YouTube</a></li>
+        </ul>
+        <p>Use channels for concepts, not for tips. Execute only your written system.</p>`
+      },
+      {
+        type: "info",
+        title: "Lessons from market masters",
+        body: `<p>Apply these principles every week:</p>
+        <ul>
+          <li><strong>Rakesh Jhunjhunwala:</strong> the market is supreme — respect price and risk</li>
+          <li><strong>Warren Buffett:</strong> protect downside first; compounding needs survival</li>
+          <li><strong>Mark Minervini:</strong> cut losses quickly; never average losers blindly</li>
+          <li><strong>Peter Lynch:</strong> know what you own; if you can't explain it simply, skip it</li>
+        </ul>
+        <div class="key-insight"><strong>Income reality:</strong> real passive wealth in India usually comes from long-term SIP compounding. Trading income starts as active, skill-based income and takes years to stabilize.</div>`
+      },
+      {
+        type: "quiz",
+        question: "What's the best 2026 plan if your goal is to eventually earn from markets without blowing up?",
+        options: [
+          "Trade all day, copy social media calls, and scale fast",
+          "Build a daily routine, keep strict risk/tax discipline, and combine trading with long-term SIP compounding",
+          "Only watch videos and avoid journaling",
+          "Focus only on one lucky strategy and ignore compliance"
+        ],
+        correct: 1,
+        explanation: "Exactly. Sustainable income comes from process + risk control + compliance + long-term compounding, not speed."
+      }
+    ],
+    glossary: [
+      { term: "Market breadth", def: "How many stocks participate in a move; helps judge whether index strength is broad or narrow." },
+      { term: "Watchlist hygiene", def: "Keeping a focused list of tradable stocks/indices instead of tracking everything." },
+      { term: "Process edge", def: "Your repeatable advantage from routines, risk rules, and disciplined execution." }
+    ]
   }
 };
 

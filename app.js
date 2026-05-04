@@ -24,6 +24,7 @@ const defaultState = {
   reminderTime: '20:00',
   reminderNotificationsEnabled: false,
   lastReminderSentDate: null,
+  lastDailyRewardDate: null,
   startedDate: null
 };
 
@@ -70,6 +71,17 @@ function updateStreak() {
   }
   state.lastActiveDate = today;
   saveState();
+}
+
+function awardDailyLearningReward() {
+  const today = todayLocalISO();
+  if (state.lastDailyRewardDate === today) return;
+
+  const reward = state.streakCount >= 14 ? 20 : state.streakCount >= 7 ? 15 : 10;
+  state.lastDailyRewardDate = today;
+  saveState();
+  awardXP(reward);
+  toast(`🎁 Daily learning reward +${reward} 🪙`);
 }
 
 // ─── XP & Levels ───
@@ -349,6 +361,15 @@ function renderReminderSettings() {
   enableBtn.textContent = 'Enable reminders';
 }
 
+function renderThemeSettings() {
+  const options = document.querySelectorAll('#themePicker .theme-option');
+  options.forEach((btn) => {
+    const active = btn.dataset.theme === state.theme;
+    btn.classList.toggle('active', active);
+    btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+  });
+}
+
 // ─── ONBOARDING ───
 function initOnboarding() {
   const ob = document.getElementById('onboarding');
@@ -446,6 +467,7 @@ function initApp() {
   applyTheme(state.theme);
   refreshTopBar();
   updateStreak();
+  awardDailyLearningReward();
   renderHome();
   renderQuestMap();
   renderPrereqs();
@@ -454,6 +476,7 @@ function initApp() {
   renderGlossary();
   setupNavigation();
   setupModals();
+  renderThemeSettings();
   setupReminderWatchers();
   renderReminderSettings();
   maybeSendCatchupReminder();
@@ -868,20 +891,27 @@ function completeQuest() {
 function setupModals() {
   const menuDrawer = document.getElementById('menuDrawer');
   const reminderTime = document.getElementById('reminderTime');
+  const themeOptions = document.querySelectorAll('#themePicker .theme-option');
 
   document.getElementById('menuBtn').addEventListener('click', () => {
     menuDrawer.classList.remove('hidden');
-    document.getElementById('themeSelect').value = state.theme;
     reminderTime.value = state.reminderTime;
+    renderThemeSettings();
     renderReminderSettings();
   });
   document.getElementById('closeMenu').addEventListener('click', () => {
     menuDrawer.classList.add('hidden');
   });
-  document.getElementById('themeSelect').addEventListener('change', (e) => {
-    state.theme = e.target.value;
-    applyTheme(state.theme);
-    saveState();
+  themeOptions.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const nextTheme = btn.dataset.theme;
+      if (!nextTheme || nextTheme === state.theme) return;
+      state.theme = nextTheme;
+      applyTheme(state.theme);
+      saveState();
+      renderThemeSettings();
+      toast(`Theme changed to ${btn.textContent.trim()}.`);
+    });
   });
   reminderTime.addEventListener('change', (e) => {
     state.reminderTime = e.target.value;

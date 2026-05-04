@@ -148,7 +148,7 @@
             <div class="progress-bar">
               <div class="progress-fill" id="prereqProgress" style="width: 0%"></div>
             </div>
-            <div class="mini-value" id="prereqProgressText">0 of 6 done</div>
+            <div class="mini-value" id="prereqProgressText">0 of 10 done</div>
           </div>
           <div class="card-mini">
             <div class="mini-label">Curriculum progress</div>
@@ -165,7 +165,7 @@
       <!-- QUEST MAP VIEW -->
       <section class="view" data-view="map">
         <h2>Your quest map</h2>
-        <p class="muted">Twelve worlds. Move at your own pace. No deadlines, no pressure.</p>
+        <p class="muted">Ten worlds. Move at your own pace. No deadlines, no pressure.</p>
         <div id="questMap" class="quest-map"></div>
       </section>
 
@@ -293,13 +293,14 @@
           <p id="reminderHint" class="muted small">Allow notifications to get a daily nudge to learn.</p>
         </div>
       </div>
-      <div class="menu-item">
+      <div class="menu-item menu-item-stack">
         <span>Theme</span>
-        <select id="themeSelect">
-          <option value="warm">Warm (cream & sage)</option>
-          <option value="dark">Dark (focus mode)</option>
-          <option value="ocean">Ocean (cool blue)</option>
-        </select>
+        <div id="themePicker" class="theme-picker" role="group" aria-label="Theme selector">
+          <button type="button" class="theme-option" data-theme="warm">Warm</button>
+          <button type="button" class="theme-option" data-theme="dark">Dark</button>
+          <button type="button" class="theme-option" data-theme="ocean">Ocean</button>
+        </div>
+        <p class="muted small">Theme stays on this device only.</p>
       </div>
       <hr />
       <button id="exportData" class="btn-secondary menu-action">Export my data</button>

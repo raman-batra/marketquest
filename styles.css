@@ -855,7 +855,7 @@ input:focus, textarea:focus, select:focus {
   position: relative;
   display: flex;
   flex-direction: column;
-  animation: slideUp 0.3s ease;
+  animation: menuFadeIn 0.2s ease;
 }
 .menu-content h3 {
   padding-right: 0;
@@ -885,6 +885,31 @@ input:focus, textarea:focus, select:focus {
   width: auto;
   max-width: 180px;
 }
+.theme-picker {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+.theme-option {
+  background: var(--bg-elevated);
+  color: var(--ink-soft);
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  padding: 0.5rem 0.6rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: all 0.15s;
+}
+.theme-option:hover {
+  border-color: var(--accent);
+  color: var(--ink);
+}
+.theme-option.active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-deep);
+}
 .reminder-controls {
   width: 100%;
   display: flex;
@@ -913,6 +938,10 @@ input:focus, textarea:focus, select:focus {
   width: 100%;
   margin-bottom: 0.7rem;
 }
+@keyframes menuFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 
 @media (max-width: 768px) {
   .menu-content {
@@ -933,6 +962,9 @@ input:focus, textarea:focus, select:focus {
   .menu-item input, .menu-item select {
     width: 100%;
     max-width: none;
+  }
+  .theme-picker {
+    width: 100%;
   }
   .reminder-buttons {
     width: 100%;
