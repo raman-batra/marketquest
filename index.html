@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MarketQuest — Learn trading, one quest at a time</title>
+  <meta name="description" content="A gentle, gamified path to learning the Indian stock market." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>🌱</text></svg>" />
+</head>
+<body>
+
+  <!-- ───────────────────────────────────────────────
+       ONBOARDING (shown only on first visit)
+       ─────────────────────────────────────────────── -->
+  <section id="onboarding" class="onboarding hidden">
+    <div class="onboarding-card">
+      <div class="onboarding-mascot">🌱</div>
+      <h1 class="onboarding-title">Welcome to <em>MarketQuest</em></h1>
+      <p class="onboarding-sub">A gentle, slow-paced path to learning the Indian stock market. No jargon walls. No overwhelm. Five minutes a day is enough.</p>
+
+      <div class="onboarding-step" data-step="1">
+        <label class="onboarding-label">What should we call you?</label>
+        <input type="text" id="userName" placeholder="Your name" maxlength="20" />
+      </div>
+
+      <div class="onboarding-step hidden" data-step="2">
+        <label class="onboarding-label">How much do you already know?</label>
+        <div class="choice-grid">
+          <button class="choice" data-level="0">Total beginner — never bought a stock</button>
+          <button class="choice" data-level="1">I have SIPs / mutual funds</button>
+          <button class="choice" data-level="2">I've traded a bit, want to get serious</button>
+        </div>
+      </div>
+
+      <div class="onboarding-step hidden" data-step="3">
+        <label class="onboarding-label">How many minutes per day can you invest?</label>
+        <div class="choice-grid">
+          <button class="choice" data-minutes="5">5 minutes — gentle pace</button>
+          <button class="choice" data-minutes="15">15 minutes — steady pace</button>
+          <button class="choice" data-minutes="30">30+ minutes — committed pace</button>
+        </div>
+      </div>
+
+      <div class="onboarding-step hidden" data-step="4">
+        <p class="onboarding-promise"><strong>One promise.</strong></p>
+        <p class="onboarding-sub">This app will <em>never</em> tell you what stocks to buy. No tips. No "secret strategies." Just the foundations, in tiny steps. The goal is to make you confident enough to make your own decisions.</p>
+        <button id="startJourney" class="btn-primary">I'm in. Let's begin.</button>
+      </div>
+
+      <div class="onboarding-progress">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────────────────────────────
+       MAIN APP
+       ─────────────────────────────────────────────── -->
+  <div id="app" class="app hidden">
+
+    <!-- Top bar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <span class="logo">🌱 MarketQuest</span>
+      </div>
+      <div class="topbar-right">
+        <div class="stat-pill" title="Streak">
+          <span class="stat-icon">🔥</span>
+          <span id="streakCount">0</span>
+        </div>
+        <div class="stat-pill" title="Coins (XP)">
+          <span class="stat-icon">🪙</span>
+          <span id="xpCount">0</span>
+        </div>
+        <div class="stat-pill" title="Level">
+          <span class="stat-icon">✨</span>
+          <span id="levelCount">1</span>
+        </div>
+        <button id="menuBtn" class="icon-btn" title="Menu">⋯</button>
+      </div>
+    </header>
+
+    <!-- Sidebar / nav -->
+    <nav class="sidenav">
+      <button class="nav-item active" data-view="home">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-label">Home</span>
+      </button>
+      <button class="nav-item" data-view="map">
+        <span class="nav-icon">🗺️</span>
+        <span class="nav-label">Quest Map</span>
+      </button>
+      <button class="nav-item" data-view="prereqs">
+        <span class="nav-icon">🛡️</span>
+        <span class="nav-label">Foundation</span>
+      </button>
+      <button class="nav-item" data-view="journal">
+        <span class="nav-icon">📓</span>
+        <span class="nav-label">Journal</span>
+      </button>
+      <button class="nav-item" data-view="badges">
+        <span class="nav-icon">🏅</span>
+        <span class="nav-label">Badges</span>
+      </button>
+      <button class="nav-item" data-view="glossary">
+        <span class="nav-icon">📖</span>
+        <span class="nav-label">Glossary</span>
+      </button>
+    </nav>
+
+    <!-- Main content area -->
+    <main class="main">
+
+      <!-- HOME VIEW -->
+      <section class="view active" data-view="home">
+        <div class="greeting">
+          <h2 id="greetingText">Welcome back</h2>
+          <p id="greetingSub" class="muted">Ready for today's quest?</p>
+        </div>
+
+        <div class="streak-banner" id="streakBanner"></div>
+
+        <div class="card today-quest">
+          <div class="card-eyebrow">Today's quest</div>
+          <h3 id="todayQuestTitle">Loading…</h3>
+          <p id="todayQuestDesc" class="muted"></p>
+          <div class="card-meta">
+            <span id="todayQuestTime">⏱ 5 min</span>
+            <span id="todayQuestXP">🪙 +20</span>
+          </div>
+          <button id="startQuestBtn" class="btn-primary">Start quest</button>
+        </div>
+
+        <div class="card-row">
+          <div class="card-mini">
+            <div class="mini-label">Foundation progress</div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="prereqProgress" style="width: 0%"></div>
+            </div>
+            <div class="mini-value" id="prereqProgressText">0 of 6 done</div>
+          </div>
+          <div class="card-mini">
+            <div class="mini-label">Curriculum progress</div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="questProgress" style="width: 0%"></div>
+            </div>
+            <div class="mini-value" id="questProgressText">0 of 0 quests</div>
+          </div>
+        </div>
+
+        <div class="quote-card" id="dailyQuote"></div>
+      </section>
+
+      <!-- QUEST MAP VIEW -->
+      <section class="view" data-view="map">
+        <h2>Your quest map</h2>
+        <p class="muted">Twelve worlds. Move at your own pace. No deadlines, no pressure.</p>
+        <div id="questMap" class="quest-map"></div>
+      </section>
+
+      <!-- PREREQS / FOUNDATION VIEW -->
+      <section class="view" data-view="prereqs">
+        <h2>Foundation 🛡️</h2>
+        <p class="muted">Before risking any money, let's make sure your life is on solid ground. Tick these off honestly. Some take time — that's fine.</p>
+        <div id="prereqList" class="prereq-list"></div>
+      </section>
+
+      <!-- JOURNAL VIEW -->
+      <section class="view" data-view="journal">
+        <h2>Trade Journal 📓</h2>
+        <p class="muted">Once you start paper trading (Quest 24+), log every trade here. The journal teaches you more than any book.</p>
+
+        <div class="journal-stats">
+          <div class="js-card">
+            <div class="js-label">Trades logged</div>
+            <div class="js-value" id="jsTotalTrades">0</div>
+          </div>
+          <div class="js-card">
+            <div class="js-label">Win rate</div>
+            <div class="js-value" id="jsWinRate">—</div>
+          </div>
+          <div class="js-card">
+            <div class="js-label">Avg R</div>
+            <div class="js-value" id="jsAvgR">—</div>
+          </div>
+        </div>
+
+        <button id="addTradeBtn" class="btn-primary">+ Log a trade</button>
+        <div id="journalList" class="journal-list"></div>
+      </section>
+
+      <!-- BADGES VIEW -->
+      <section class="view" data-view="badges">
+        <h2>Badges 🏅</h2>
+        <p class="muted">Earn badges as you progress. Some take days. Some take months. All earned.</p>
+        <div id="badgeGrid" class="badge-grid"></div>
+      </section>
+
+      <!-- GLOSSARY VIEW -->
+      <section class="view" data-view="glossary">
+        <h2>Glossary 📖</h2>
+        <p class="muted">Look up any term you've learned. Updates as you complete quests.</p>
+        <input type="search" id="glossarySearch" placeholder="Search a term…" class="search-input" />
+        <div id="glossaryList" class="glossary-list"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ───────────────────────────────────────────────
+       LESSON MODAL — opens when starting a quest
+       ─────────────────────────────────────────────── -->
+  <div id="lessonModal" class="modal hidden">
+    <div class="modal-content">
+      <button class="modal-close" id="closeLesson">×</button>
+      <div class="lesson-progress">
+        <div class="lesson-progress-fill" id="lessonProgressFill"></div>
+      </div>
+      <div id="lessonBody"></div>
+      <div class="lesson-footer">
+        <button id="lessonBack" class="btn-secondary hidden">← Back</button>
+        <button id="lessonNext" class="btn-primary">Continue →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trade entry modal -->
+  <div id="tradeModal" class="modal hidden">
+    <div class="modal-content">
+      <button class="modal-close" id="closeTrade">×</button>
+      <h3>Log a trade</h3>
+      <form id="tradeForm" class="trade-form">
+        <label>Date <input type="date" name="date" required /></label>
+        <label>Symbol <input type="text" name="symbol" placeholder="RELIANCE" required /></label>
+        <label>Setup / Strategy <input type="text" name="setup" placeholder="Support bounce" /></label>
+        <label>Entry price <input type="number" step="0.01" name="entry" required /></label>
+        <label>Stop-loss <input type="number" step="0.01" name="stop" required /></label>
+        <label>Target <input type="number" step="0.01" name="target" /></label>
+        <label>Quantity <input type="number" name="qty" required /></label>
+        <label>Exit price (if closed) <input type="number" step="0.01" name="exit" /></label>
+        <label>Mode
+          <select name="mode">
+            <option value="paper">Paper</option>
+            <option value="live">Live</option>
+          </select>
+        </label>
+        <label>Reason for entry <textarea name="reasonIn" rows="2"></textarea></label>
+        <label>Reason for exit <textarea name="reasonOut" rows="2"></textarea></label>
+        <label>Emotion (1 calm – 10 stressed)
+          <input type="range" name="emotion" min="1" max="10" value="5" />
+          <output id="emotionVal">5</output>
+        </label>
+        <label>Lesson learned <textarea name="lesson" rows="2"></textarea></label>
+        <button type="submit" class="btn-primary">Save trade</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast for celebrations -->
+  <div id="toast" class="toast hidden"></div>
+
+  <!-- Confetti container -->
+  <div id="confetti" class="confetti"></div>
+
+  <!-- Menu drawer -->
+  <div id="menuDrawer" class="menu-drawer hidden">
+    <div class="menu-content">
+      <button class="modal-close" id="closeMenu">×</button>
+      <h3>Settings</h3>
+      <div class="menu-item">
+        <span>Daily reminder time</span>
+        <input type="time" id="reminderTime" value="20:00" />
+      </div>
+      <div class="menu-item">
+        <span>Theme</span>
+        <select id="themeSelect">
+          <option value="warm">Warm (cream & sage)</option>
+          <option value="dark">Dark (focus mode)</option>
+          <option value="ocean">Ocean (cool blue)</option>
+        </select>
+      </div>
+      <hr />
+      <button id="exportData" class="btn-secondary">Export my data</button>
+      <button id="resetData" class="btn-danger">Reset everything</button>
+      <p class="muted small">Your data lives only on this device. Nothing is sent anywhere.</p>
+    </div>
+  </div>
+
+  <script src="content.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
